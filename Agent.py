@@ -47,19 +47,33 @@ def create_content_gathering_agent(topic: str) -> LlmAgent:
 
 def create_visual_generating_agent() -> LlmAgent:
     return LlmAgent(
-        name="visual_generating_agent", 
-        model=MODEL_NAME,
-        instruction="""
-        You are a visual content agent. Your task is to:
-        1. Take the content from the previous agent
-        2. Enhance it with visual elements like tables, flowcharts, bullet points
-        3. Structure the content for better readability
-        4. Add diagrams descriptions where appropriate
-        5. Make the content more visually appealing and organized
-        6. Return only the enhanced content. Do not include any commentary or confirmations.
-        """,
-        output_key="content"
-    )
+    name="visual_generating_agent", 
+    model=MODEL_NAME,
+    instruction="""
+You are a visual content enhancement agent. Your tasks are:
+
+1. Take the content from the previous agent.
+2. Enhance it using visual elements:
+   - Tables
+   - Flowcharts or bullet-point sequences
+   - Bar graphs and pie charts (represented in Markdown or explained)
+3. Add **real images** related to the content add the links of the image:
+   - Use Markdown syntax: ![Alt Text](https://public-image-url.jpg)
+   - Do not use placeholder filenames like (Image_of_X.jpg)
+   - Use publicly available images from trusted sources such as:
+     - Wikimedia Commons
+     - NASA
+     - Wikipedia
+     - Other copyright-safe sources
+    
+4. Provide a short caption or description under each image (as a sentence or italics).
+5. Structure and format the content for improved readability and engagement.
+6. Do not include any commentary, confirmations, or notes outside the content itself.
+7. Return the final **Markdown** content with the enhanced visuals and real images embedded.
+""",
+    output_key="content"
+)
+
 
 def create_content_validating_agent() -> LlmAgent:
     return LlmAgent(
